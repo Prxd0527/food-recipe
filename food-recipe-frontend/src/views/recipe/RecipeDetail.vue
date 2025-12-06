@@ -27,6 +27,10 @@
             <span>评论 {{ recipe?.commentCount || 0 }}</span>
           </div>
 
+          <div class="action-buttons">
+            <FavoriteButton v-if="recipe" :recipe-id="recipe.id" />
+          </div>
+
           <div class="recipe-author">
             <el-avatar :src="recipe?.userAvatar" :size="40" />
             <div>
@@ -102,6 +106,7 @@ import { useRoute } from 'vue-router'
 import { getRecipeDetail } from '@/api/recipe'
 import { getRecipeComments } from '@/api/comment'
 import { useUserStore } from '@/store/user'
+import FavoriteButton from '@/components/FavoriteButton.vue'
 import CommentForm from '@/components/CommentForm.vue'
 import CommentList from '@/components/CommentList.vue'
 import type { Recipe } from '@/types/recipe'

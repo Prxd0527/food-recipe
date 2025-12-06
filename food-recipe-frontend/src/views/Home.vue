@@ -13,6 +13,7 @@
               <el-menu-item index="/">首页</el-menu-item>
               <el-menu-item index="/recipes">食谱</el-menu-item>
               <el-menu-item v-if="userStore.userInfo" index="/my-recipes">我的食谱</el-menu-item>
+              <el-menu-item v-if="userStore.userInfo" index="/my-favorites">我的收藏</el-menu-item>
               <el-menu-item v-if="userStore.userInfo" index="/recipe/create">发布食谱</el-menu-item>
             </el-menu>
           </div>
