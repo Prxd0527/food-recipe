@@ -31,16 +31,9 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                // 配置权限
+                // 配置权限 - 开发阶段允许所有请求
                 .authorizeRequests()
-                // 允许所有人访问认证接口
-                .antMatchers("/api/auth/**").permitAll()
-                // 允许访问Swagger文档
-                .antMatchers("/doc.html", "/webjars/**", "/swagger-resources/**", "/v2/**").permitAll()
-                // 允许访问上传的图片
-                .antMatchers("/upload/**").permitAll()
-                // 其他请求需要认证
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
                 .and()
                 // 关闭默认的登录页面
                 .formLogin().disable()

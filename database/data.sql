@@ -9,10 +9,10 @@ USE `food_recipe`;
 -- ============================
 -- 1. 插入管理员账号
 -- ============================
--- 默认密码：admin123（实际使用时需要用BCrypt加密）
--- BCrypt加密后的密码示例：$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi
+-- 默认密码：123456
+-- BCrypt加密后：$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe
 INSERT INTO `user` (`username`, `password`, `nickname`, `role`, `status`) VALUES
-('admin', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '系统管理员', 'ADMIN', 1);
+('admin', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '系统管理员', 'ADMIN', 1);
 
 -- ============================
 -- 2. 插入基础标签 - 菜系分类
@@ -72,11 +72,11 @@ INSERT INTO `tag` (`name`, `type`) VALUES
 -- ============================
 -- 5. 插入测试用普通用户（可选）
 -- ============================
--- 测试用户1：username=user1, password=user123
--- 测试用户2：username=user2, password=user123
+-- 测试用户密码均为：123456
+-- BCrypt加密后：$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe
 INSERT INTO `user` (`username`, `password`, `nickname`, `role`, `status`) VALUES
-('user1', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '美食达人001', 'USER', 1),
-('user2', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '厨艺新星002', 'USER', 1);
+('user1', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '美食达人001', 'USER', 1),
+('user2', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '厨艺新星002', 'USER', 1);
 
 -- ============================
 -- 6. 插入示例食谱（可选，用于测试）
@@ -118,7 +118,8 @@ INSERT INTO `recipe_tag` (`recipe_id`, `tag_id`) VALUES
 -- ============================
 -- 数据初始化完成
 -- ============================
--- 管理员账号：admin / admin123
--- 测试用户：user1 / user123, user2 / user123
+-- 所有账号密码统一为：123456
+-- 管理员账号：admin / 123456
+-- 测试用户：user1 / 123456, user2 / 123456
 -- 注意：生产环境请修改默认密码！
 -- ============================

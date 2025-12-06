@@ -30,6 +30,11 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
     default-property-inclusion: non_null
+  
+  # MVC配置（解决Springfox兼容性）
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 # MyBatis-Plus配置
 mybatis-plus:
@@ -73,8 +78,16 @@ file:
   # 静态资源映射路径
   resource-path: file:${file.upload-path}
 
-# Knife4j配置
+# Knife4j配置（OpenAPI3）
 knife4j:
   enable: true
   setting:
     language: zh_CN
+
+# SpringDoc配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+  packages-to-scan: com.food.recipe.controller
