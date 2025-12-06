@@ -68,6 +68,30 @@
           </div>
         </div>
       </div>
+      <el-divider />
+
+      <!-- 评论区 -->
+      <div class="section">
+        <h2 class="section-title">用户评论（{{ commentTotal }}）</h2>
+        
+        <!-- 评论表单 -->
+        <CommentForm v-if="userStore.userInfo" :recipe-id="Number(route.params.id)" @success="loadComments" />
+        <el-alert v-else type="info" :closable="false" style="margin-bottom: 20px">
+          <template #title>
+            请先<router-link to="/login" style="color: #409eff">登录</router-link>后发表评论
+          </template>
+        </el-alert>
+
+        <!-- 评论列表 -->
+        <CommentList
+          :comments="comments"
+          :total="commentTotal"
+          :current-page="commentPage"
+          :page-size="10"
+          @page-change="handleCommentPageChange"
+          @delete-success="loadComments"
+        />
+      </div>
     </el-card>
   </div>
 </template>
@@ -76,11 +100,20 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getRecipeDetail } from '@/api/recipe'
+import { getRecipeComments } from '@/api/comment'
+import { useUserStore } from '@/store/user'
+import CommentForm from '@/components/CommentForm.vue'
+import CommentList from '@/components/CommentList.vue'
 import type { Recipe } from '@/types/recipe'
+import type { Comment } from '@/types/comment'
 
 const route = useRoute()
+const userStore = useUserStore()
 const loading = ref(false)
 const recipe = ref<Recipe>()
+const comments = ref<Comment[]>([])
+const commentTotal = ref(0)
+const commentPage = ref(1)
 
 const difficultyText = computed(() => {
   const map: Record<string, string> = {
@@ -114,8 +147,28 @@ const loadRecipeDetail = async () => {
   }
 }
 
+const loadComments = async () => {
+  const id = Number(route.params.id)
+  try {
+    const result = await getRecipeComments(id, {
+      current: commentPage.value,
+      size: 10
+    })
+    comments.value = result.records
+    commentTotal.value = result.total
+  } catch (error) {
+    console.error('加载评论失败:', error)
+  }
+}
+
+const handleCommentPageChange = (page: number) => {
+  commentPage.value = page
+  loadComments()
+}
+
 onMounted(() => {
   loadRecipeDetail()
+  loadComments()
 })
 </script>
 
