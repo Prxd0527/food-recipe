@@ -1,0 +1,35 @@
+/**
+ * Token管理工具
+ * @author prxd0527
+ * @date 2025-12-07
+ */
+
+const TOKEN_KEY = 'food-recipe-token'
+
+/**
+ * 获取Token
+ */
+export function getToken(): string | null {
+    return localStorage.getItem(TOKEN_KEY)
+}
+
+/**
+ * 设置Token
+ */
+export function setToken(token: string): void {
+    localStorage.setItem(TOKEN_KEY, token)
+}
+
+/**
+ * 移除Token
+ */
+export function removeToken(): void {
+    localStorage.removeItem(TOKEN_KEY)
+}
+
+/**
+ * 检查是否已登录
+ */
+export function isAuthenticated(): boolean {
+    return !!getToken()
+}
