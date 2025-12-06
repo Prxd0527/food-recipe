@@ -1,0 +1,107 @@
+# ==========================
+# 通用忽略规则
+# ==========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*~
+
+# ==========================
+# IDE配置文件
+# ==========================
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# ==========================
+# 后端 (Spring Boot)
+# ==========================
+# Maven
+food-recipe-backend/target/
+food-recipe-backend/.mvn/
+food-recipe-backend/mvnw
+food-recipe-backend/mvnw.cmd
+
+# Gradle
+food-recipe-backend/.gradle/
+food-recipe-backend/build/
+
+# Spring Boot
+food-recipe-backend/HELP.md
+
+# 日志文件
+food-recipe-backend/logs/
+food-recipe-backend/*.log
+
+# 上传的图片（可选：如果需要版本控制图片，移除此行）
+food-recipe-backend/upload/
+
+# ==========================
+# 前端 (Vue3)
+# ==========================
+# 依赖
+food-recipe-frontend/node_modules/
+food-recipe-frontend/.pnp
+food-recipe-frontend/.pnp.js
+
+# 生产构建
+food-recipe-frontend/dist/
+food-recipe-frontend/dist-ssr/
+
+# 测试覆盖率
+food-recipe-frontend/coverage/
+
+# 环境变量
+food-recipe-frontend/.env.local
+food-recipe-frontend/.env.*.local
+
+# Vite
+food-recipe-frontend/.vite/
+
+# TypeScript
+food-recipe-frontend/*.tsbuildinfo
+
+# ==========================
+# 数据库备份
+# ==========================
+*.sql.backup
+dump.sql
+
+# ==========================
+# 系统文件
+# ==========================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==========================
+# 备份文件夹（按照用户规则）
+# ==========================
+copy/

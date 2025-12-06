@@ -1,0 +1,80 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: food-recipe-backend
+  
+  # 环境配置
+  profiles:
+    active: dev
+  
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/food_recipe?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 20MB
+  
+  # Jackson配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+
+# MyBatis-Plus配置
+mybatis-plus:
+  # XML映射文件位置
+  mapper-locations: classpath*:/mapper/**/*.xml
+  # 实体类包路径
+  type-aliases-package: com.food.recipe.entity
+  configuration:
+    # 开启驼峰命名转换
+    map-underscore-to-camel-case: true
+    # 日志实现
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      # 主键类型（雪花算法）
+      id-type: ASSIGN_ID
+      # 逻辑删除字段名
+      logic-delete-field: isDeleted
+      # 逻辑删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
+
+# JWT配置
+jwt:
+  # 密钥（生产环境请使用更复杂的密钥）
+  secret: food-recipe-secret-key-prxd0527-2025
+  # 过期时间（7天，单位：毫秒）
+  expiration: 604800000
+  # Token前缀
+  token-prefix: Bearer 
+  # Header名称
+  header-name: Authorization
+
+# 文件上传配置
+file:
+  # 上传路径
+  upload-path: d:/akaifa/food/upload/
+  # 访问路径前缀
+  access-path: /upload/**
+  # 静态资源映射路径
+  resource-path: file:${file.upload-path}
+
+# Knife4j配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_CN
