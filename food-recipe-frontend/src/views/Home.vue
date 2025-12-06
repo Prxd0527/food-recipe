@@ -9,10 +9,11 @@
             <span class="logo-text">美食食谱</span>
           </div>
           <div class="nav-menu">
-            <el-menu mode="horizontal" :ellipsis="false">
-              <el-menu-item index="1">首页</el-menu-item>
-              <el-menu-item index="2">食谱</el-menu-item>
-              <el-menu-item index="3">我的收藏</el-menu-item>
+            <el-menu mode="horizontal" :ellipsis="false" router>
+              <el-menu-item index="/">首页</el-menu-item>
+              <el-menu-item index="/recipes">食谱</el-menu-item>
+              <el-menu-item v-if="userStore.userInfo" index="/my-recipes">我的食谱</el-menu-item>
+              <el-menu-item v-if="userStore.userInfo" index="/recipe/create">发布食谱</el-menu-item>
             </el-menu>
           </div>
           <div class="user-info" v-if="userStore.userInfo">

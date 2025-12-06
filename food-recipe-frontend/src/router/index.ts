@@ -26,6 +26,30 @@ const routes: RouteRecordRaw[] = [
         name: 'Register',
         component: () => import('@/views/auth/Register.vue'),
         meta: { title: '注册', requiresGuest: true }
+    },
+    {
+        path: '/recipes',
+        name: 'RecipeList',
+        component: () => import('@/views/recipe/RecipeList.vue'),
+        meta: { title: '食谱列表' }
+    },
+    {
+        path: '/recipe/:id',
+        name: 'RecipeDetail',
+        component: () => import('@/views/recipe/RecipeDetail.vue'),
+        meta: { title: '食谱详情' }
+    },
+    {
+        path: '/recipe/create',
+        name: 'RecipeCreate',
+        component: () => import('@/views/recipe/RecipeCreate.vue'),
+        meta: { title: '发布食谱', requiresAuth: true }
+    },
+    {
+        path: '/my-recipes',
+        name: 'MyRecipes',
+        component: () => import('@/views/user/MyRecipes.vue'),
+        meta: { title: '我的食谱', requiresAuth: true }
     }
 ]
 
