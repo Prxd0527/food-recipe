@@ -21,6 +21,7 @@ export interface User {
     nickname: string
     avatar?: string
     email?: string
+    bio?: string
     role: UserRole
     status: number
     createTime: string

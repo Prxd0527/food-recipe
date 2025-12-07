@@ -50,6 +50,18 @@ const routes: RouteRecordRaw[] = [
         name: 'MyRecipes',
         component: () => import('@/views/user/MyRecipes.vue'),
         meta: { title: '我的食谱', requiresAuth: true }
+    },
+    {
+        path: '/my-favorites',
+        name: 'MyFavorites',
+        component: () => import('@/views/user/MyFavorites.vue'),
+        meta: { title: '我的收藏', requiresAuth: true }
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('@/views/user/Profile.vue'),
+        meta: { title: '个人中心', requiresAuth: true }
     }
 ]
 

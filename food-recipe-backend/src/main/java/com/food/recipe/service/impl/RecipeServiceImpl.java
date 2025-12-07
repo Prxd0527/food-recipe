@@ -153,8 +153,8 @@ public class RecipeServiceImpl implements RecipeService {
         Page<Recipe> page = new Page<>(current, size);
         LambdaQueryWrapper<Recipe> wrapper = new LambdaQueryWrapper<>();
         
-        // 只查询已发布的食谱
-        wrapper.eq(Recipe::getStatus, Constants.RECIPE_STATUS_PUBLISHED);
+        // 开发阶段：暂时注释掉状态过滤，显示所有食谱
+        // wrapper.eq(Recipe::getStatus, Constants.RECIPE_STATUS_PUBLISHED);
 
         // 关键词搜索（标题或简介）
         if (StringUtils.hasText(keyword)) {

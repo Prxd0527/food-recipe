@@ -33,6 +33,9 @@ public class UserVO implements Serializable {
     @ApiModelProperty("邮箱")
     private String email;
 
+    @ApiModelProperty("个人简介")
+    private String bio;
+
     @ApiModelProperty("角色")
     private String role;
 

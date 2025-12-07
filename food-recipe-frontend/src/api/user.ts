@@ -26,3 +26,20 @@ export function login(data: LoginRequest) {
 export function getUserInfo() {
     return request.get<User>('/user/info')
 }
+
+/**
+ * 用户信息更新请求
+ */
+export interface UserUpdateRequest {
+    nickname?: string
+    email?: string
+    avatar?: string
+    bio?: string
+}
+
+/**
+ * 更新用户信息
+ */
+export function updateUserInfo(data: UserUpdateRequest) {
+    return request.put<User>('/user/info', data)
+}

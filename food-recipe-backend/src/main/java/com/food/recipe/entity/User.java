@@ -49,6 +49,11 @@ public class User implements Serializable {
     private String email;
 
     /**
+     * 个人简介
+     */
+    private String bio;
+
+    /**
      * 角色：USER-普通用户，ADMIN-管理员
      */
     private String role;

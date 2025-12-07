@@ -18,16 +18,17 @@
             </el-menu>
           </div>
           <div class="user-info" v-if="userStore.userInfo">
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
               <span class="username">
                 <el-avatar :size="32" :src="userStore.userInfo.avatar" />
                 <span style="margin-left: 8px">{{ userStore.userInfo.nickname }}</span>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item>个人中心</el-dropdown-item>
-                  <el-dropdown-item>我的食谱</el-dropdown-item>
-                  <el-dropdown-item divided @click="handleLogout">退出登录</el-dropdown-item>
+                  <el-dropdown-item command="profile">个人中心</el-dropdown-item>
+                  <el-dropdown-item command="my-recipes">我的食谱</el-dropdown-item>
+                  <el-dropdown-item command="my-favorites">我的收藏</el-dropdown-item>
+                  <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -47,7 +48,7 @@
           <div class="features">
             <el-row :gutter="20">
               <el-col :span="8">
-                <el-card shadow="hover">
+                <el-card shadow="hover" class="feature-card" @click="goToCreateRecipe">
                   <div class="feature-item">
                     <el-icon :size="40" color="#409EFF"><Document /></el-icon>
                     <h3>发布食谱</h3>
@@ -56,7 +57,7 @@
                 </el-card>
               </el-col>
               <el-col :span="8">
-                <el-card shadow="hover">
+                <el-card shadow="hover" class="feature-card" @click="goToRecipes">
                   <div class="feature-item">
                     <el-icon :size="40" color="#67C23A"><ChatDotRound /></el-icon>
                     <h3>互动评论</h3>
@@ -65,7 +66,7 @@
                 </el-card>
               </el-col>
               <el-col :span="8">
-                <el-card shadow="hover">
+                <el-card shadow="hover" class="feature-card" @click="goToFavorites">
                   <div class="feature-item">
                     <el-icon :size="40" color="#F56C6C"><Star /></el-icon>
                     <h3>收藏食谱</h3>
@@ -106,15 +107,48 @@ const goToRegister = () => {
   router.push('/register')
 }
 
-const handleLogout = () => {
-  ElMessageBox.confirm('确定要退出登录吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    userStore.logout()
+const handleCommand = (command: string) => {
+  switch (command) {
+    case 'profile':
+      router.push('/profile')
+      break
+    case 'my-recipes':
+      router.push('/my-recipes')
+      break
+    case 'my-favorites':
+      router.push('/my-favorites')
+      break
+    case 'logout':
+      ElMessageBox.confirm('确定要退出登录吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        userStore.logout()
+        router.push('/login')
+      })
+      break
+  }
+}
+
+const goToCreateRecipe = () => {
+  if (userStore.userInfo) {
+    router.push('/recipe/create')
+  } else {
     router.push('/login')
-  })
+  }
+}
+
+const goToRecipes = () => {
+  router.push('/recipes')
+}
+
+const goToFavorites = () => {
+  if (userStore.userInfo) {
+    router.push('/my-favorites')
+  } else {
+    router.push('/login')
+  }
 }
 </script>
 
@@ -216,5 +250,14 @@ const handleLogout = () => {
   color: #909399;
   font-size: 14px;
   margin: 0;
+}
+
+.feature-card {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
 }
 </style>
