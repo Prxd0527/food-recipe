@@ -1,74 +1,95 @@
 <template>
-  <div class="recipe-list-container">
-    <!-- 搜索和筛选栏 -->
-    <el-card class="filter-card">
-      <el-form :inline="true">
-        <el-form-item label="关键词">
+  <div class="recipe-list-page">
+    <!-- 页面头部 -->
+    <header class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">发现食谱</h1>
+        <p class="page-subtitle">探索来自世界各地的美味佳肴</p>
+      </div>
+    </header>
+
+    <div class="page-container">
+      <!-- 搜索和筛选栏 -->
+      <div class="filter-section">
+        <div class="search-box">
           <el-input
             v-model="searchParams.keyword"
-            placeholder="搜索食谱名称"
+            size="large"
+            placeholder="搜索你想要的食谱..."
             clearable
             @clear="handleSearch"
             @keyup.enter="handleSearch"
           >
+            <template #prefix>
+              <el-icon><Search /></el-icon>
+            </template>
             <template #append>
-              <el-button :icon="Search" @click="handleSearch" />
+              <el-button type="primary" @click="handleSearch">搜索</el-button>
             </template>
           </el-input>
-        </el-form-item>
+        </div>
 
-        <el-form-item label="菜系">
-          <el-select
-            v-model="searchParams.cuisineType"
-            placeholder="选择菜系"
-            clearable
-            @change="handleSearch"
-          >
-            <el-option label="川菜" value="川菜" />
-            <el-option label="粤菜" value="粤菜" />
-            <el-option label="湘菜" value="湘菜" />
-            <el-option label="家常菜" value="家常菜" />
-          </el-select>
-        </el-form-item>
+        <div class="filter-tags">
+          <div class="filter-group">
+            <span class="filter-label">菜系：</span>
+            <el-radio-group v-model="searchParams.cuisineType" @change="handleSearch">
+              <el-radio-button value="">全部</el-radio-button>
+              <el-radio-button value="川菜">川菜</el-radio-button>
+              <el-radio-button value="粤菜">粤菜</el-radio-button>
+              <el-radio-button value="湘菜">湘菜</el-radio-button>
+              <el-radio-button value="家常菜">家常菜</el-radio-button>
+              <el-radio-button value="西餐">西餐</el-radio-button>
+            </el-radio-group>
+          </div>
+          <div class="filter-group">
+            <span class="filter-label">难度：</span>
+            <el-radio-group v-model="searchParams.difficulty" @change="handleSearch">
+              <el-radio-button value="">全部</el-radio-button>
+              <el-radio-button value="EASY">简单</el-radio-button>
+              <el-radio-button value="MEDIUM">中等</el-radio-button>
+              <el-radio-button value="HARD">困难</el-radio-button>
+            </el-radio-group>
+          </div>
+        </div>
+      </div>
 
-        <el-form-item label="难度">
-          <el-select
-            v-model="searchParams.difficulty"
-            placeholder="选择难度"
-            clearable
-            @change="handleSearch"
-          >
-            <el-option label="简单" value="EASY" />
-            <el-option label="中等" value="MEDIUM" />
-            <el-option label="困难" value="HARD" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </el-card>
+      <!-- 结果统计 -->
+      <div class="result-info">
+        <span v-if="total > 0">共找到 <strong>{{ total }}</strong> 个食谱</span>
+        <span v-else>暂无食谱</span>
+      </div>
 
-    <!-- 食谱列表 -->
-    <div v-loading="loading" class="recipe-grid">
-      <RecipeCard
-        v-for="recipe in recipeList"
-        :key="recipe.id"
-        :recipe="recipe"
-      />
-    </div>
+      <!-- 食谱列表 -->
+      <div v-loading="loading" class="recipe-grid">
+        <RecipeCard
+          v-for="recipe in recipeList"
+          :key="recipe.id"
+          :recipe="recipe"
+        />
+      </div>
 
-    <!-- 空状态 -->
-    <el-empty v-if="!loading && recipeList.length === 0" description="暂无食谱" />
+      <!-- 空状态 -->
+      <div v-if="!loading && recipeList.length === 0" class="empty-state">
+        <el-empty description="暂无食谱">
+          <el-button type="primary" @click="$router.push('/recipe/create')">
+            发布第一个食谱
+          </el-button>
+        </el-empty>
+      </div>
 
-    <!-- 分页 -->
-    <div v-if="total > 0" class="pagination-container">
-      <el-pagination
-        v-model:current-page="searchParams.current"
-        v-model:page-size="searchParams.size"
-        :total="total"
-        :page-sizes="[10, 20, 50]"
-        layout="total, sizes, prev, pager, next, jumper"
-        @current-change="loadRecipeList"
-        @size-change="loadRecipeList"
-      />
+      <!-- 分页 -->
+      <div v-if="total > 0" class="pagination-container">
+        <el-pagination
+          v-model:current-page="searchParams.current"
+          v-model:page-size="searchParams.size"
+          :total="total"
+          :page-sizes="[12, 24, 48]"
+          layout="prev, pager, next"
+          background
+          @current-change="loadRecipeList"
+          @size-change="loadRecipeList"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -116,26 +137,127 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.recipe-list-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.recipe-list-page {
+  min-height: 100vh;
+  background: var(--bg-secondary, #f7f8fc);
 }
 
-.filter-card {
-  margin-bottom: 20px;
+.page-header {
+  background: var(--primary-gradient, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+  padding: 80px 24px 60px;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 12px;
+}
+
+.page-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.filter-section {
+  background: var(--bg-primary, #fff);
+  border-radius: var(--radius-lg, 16px);
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.06));
+}
+
+.search-box {
+  margin-bottom: 24px;
+}
+
+.search-box .el-input {
+  max-width: 600px;
+}
+
+.filter-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary, #4a5568);
+  min-width: 50px;
+}
+
+.result-info {
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--text-muted, #718096);
+}
+
+.result-info strong {
+  color: var(--primary-color, #667eea);
+  font-weight: 600;
 }
 
 .recipe-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  min-height: 200px;
+}
+
+.empty-state {
+  padding: 60px 0;
 }
 
 .pagination-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 48px;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 60px 16px 40px;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+
+  .page-container {
+    padding: 24px 16px;
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

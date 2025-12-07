@@ -71,7 +71,7 @@ const formRef = ref<FormInstance>()
 const loading = ref(false)
 const saving = ref(false)
 
-const uploadUrl = 'http://localhost:8080/api/files/upload'
+const uploadUrl = 'http://localhost:8080/api/upload/image'
 const uploadHeaders = computed(() => ({
   Authorization: `Bearer ${getToken()}`
 }))
@@ -155,7 +155,16 @@ const handleSave = async () => {
   })
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // 如果有token但没有用户信息，先获取用户信息
+  if (getToken() && !userStore.userInfo) {
+    loading.value = true
+    try {
+      await userStore.fetchUserInfo()
+    } finally {
+      loading.value = false
+    }
+  }
   loadUserInfo()
 })
 </script>
