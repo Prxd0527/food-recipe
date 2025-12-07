@@ -1,10 +1,8 @@
 <template>
   <div class="profile-container">
-    <el-card>
-      <template #header>
-        <h2>个人中心</h2>
-      </template>
+    <PageHeader title="个人中心" back-to="/" />
 
+    <el-card>
       <el-form 
         ref="formRef" 
         :model="form" 
@@ -62,6 +60,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { ElMessage, type FormInstance, type FormRules, type UploadProps } from 'element-plus'
+import PageHeader from '@/components/PageHeader.vue'
 import { useUserStore } from '@/store/user'
 import { updateUserInfo, type UserUpdateRequest } from '@/api/user'
 import { getToken } from '@/utils/auth'

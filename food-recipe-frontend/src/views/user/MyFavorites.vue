@@ -1,9 +1,8 @@
 <template>
   <div class="my-favorites-container">
+    <PageHeader title="我的收藏" back-to="/" />
+
     <el-card>
-      <template #header>
-        <h2>我的收藏</h2>
-      </template>
 
       <div v-loading="loading" class="recipe-grid">
         <RecipeCard
@@ -30,6 +29,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import PageHeader from '@/components/PageHeader.vue'
 import RecipeCard from '@/components/RecipeCard.vue'
 import { getMyFavorites } from '@/api/favorite'
 import type { Recipe } from '@/types/recipe'
@@ -65,11 +65,7 @@ onMounted(() => {
 .my-favorites-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-}
-
-.my-favorites-container h2 {
-  margin: 0;
+  padding: 24px;
 }
 
 .recipe-grid {

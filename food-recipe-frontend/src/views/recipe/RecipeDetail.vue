@@ -1,5 +1,7 @@
 <template>
   <div class="recipe-detail-container">
+    <PageHeader :title="recipe?.title || '食谱详情'" />
+
     <el-card v-loading="loading">
       <!-- 顶部信息 -->
       <div class="recipe-header">
@@ -106,6 +108,7 @@ import { useRoute } from 'vue-router'
 import { getRecipeDetail } from '@/api/recipe'
 import { getRecipeComments } from '@/api/comment'
 import { useUserStore } from '@/store/user'
+import PageHeader from '@/components/PageHeader.vue'
 import FavoriteButton from '@/components/FavoriteButton.vue'
 import CommentForm from '@/components/CommentForm.vue'
 import CommentList from '@/components/CommentList.vue'
@@ -181,7 +184,7 @@ onMounted(() => {
 .recipe-detail-container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .recipe-header {

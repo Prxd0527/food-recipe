@@ -1,9 +1,8 @@
 <template>
   <div class="recipe-create-container">
+    <PageHeader :title="isEdit ? '编辑食谱' : '发布食谱'" />
+
     <el-card>
-      <template #header>
-        <h2>{{ isEdit ? '编辑食谱' : '发布食谱' }}</h2>
-      </template>
 
       <el-form
         ref="formRef"
@@ -108,6 +107,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
+import PageHeader from '@/components/PageHeader.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import RichTextEditor from '@/components/RichTextEditor.vue'
 import { createRecipe } from '@/api/recipe'
@@ -198,7 +198,7 @@ const handleCancel = () => {
 .recipe-create-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px;
 }
 
 .ingredient-list,

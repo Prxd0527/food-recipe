@@ -1,12 +1,12 @@
 <template>
   <div class="my-recipes-container">
-    <el-card>
-      <template #header>
-        <div class="card-header">
-          <h2>我的食谱</h2>
-          <el-button type="primary" @click="goToCreate">发布新食谱</el-button>
-        </div>
+    <PageHeader title="我的食谱" back-to="/">
+      <template #actions>
+        <el-button type="primary" @click="goToCreate">发布新食谱</el-button>
       </template>
+    </PageHeader>
+
+    <el-card>
 
       <div v-loading="loading" class="recipe-grid">
         <RecipeCard
@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import PageHeader from '@/components/PageHeader.vue'
 import RecipeCard from '@/components/RecipeCard.vue'
 import { getMyRecipes } from '@/api/recipe'
 import type { Recipe } from '@/types/recipe'
@@ -74,17 +75,7 @@ onMounted(() => {
 .my-recipes-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.card-header h2 {
-  margin: 0;
+  padding: 24px;
 }
 
 .recipe-grid {
