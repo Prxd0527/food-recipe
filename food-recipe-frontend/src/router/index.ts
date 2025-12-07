@@ -46,6 +46,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '发布食谱', requiresAuth: true }
     },
     {
+        path: '/recipe/edit/:id',
+        name: 'RecipeEdit',
+        component: () => import('@/views/recipe/RecipeEdit.vue'),
+        meta: { title: '编辑食谱', requiresAuth: true }
+    },
+    {
         path: '/my-recipes',
         name: 'MyRecipes',
         component: () => import('@/views/user/MyRecipes.vue'),

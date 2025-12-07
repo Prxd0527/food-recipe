@@ -10,13 +10,10 @@ USE `food_recipe`;
 -- 1. 插入用户数据
 -- ============================
 -- 所有账号密码统一为：123456
--- BCrypt加密后：$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe
+-- BCrypt加密后：$2a$10$hRn9LyymOQALr6Ymw3A03Oem8ApheqLq1VDNxMFDDSR58hwyfzIZ2
 INSERT INTO `user` (`username`, `password`, `nickname`, `email`, `bio`, `role`, `status`) VALUES
-('admin', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '系统管理员', 'admin@food.com', '美食食谱平台管理员，致力于分享美食文化', 'ADMIN', 1),
-('user1', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '美食达人小王', 'user1@food.com', '热爱烹饪，专注川菜家常菜研究', 'USER', 1),
-('user2', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '厨艺新星小李', 'user2@food.com', '西点烘焙爱好者，甜品控一枚', 'USER', 1),
-('user3', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '粤菜大师阿明', 'user3@food.com', '广东老饕，粤菜传承人', 'USER', 1),
-('user4', '$2a$10$EixZaYVK1fsbw1ZfbX3OXe.PaVvFbtyAKs4hfVZ6g2f.lGWXXVHGe', '素食主义者小美', 'user4@food.com', '素食主义践行者，健康饮食推广者', 'USER', 1);
+('admin', '$2a$10$hRn9LyymOQALr6Ymw3A03Oem8ApheqLq1VDNxMFDDSR58hwyfzIZ2', '系统管理员', 'admin@food.com', '美食食谱平台管理员，致力于分享美食文化', 'ADMIN', 1),
+('user1', '$2a$10$hRn9LyymOQALr6Ymw3A03Oem8ApheqLq1VDNxMFDDSR58hwyfzIZ2', '美食达人小王', 'user1@food.com', '热爱烹饪，专注川菜家常菜研究', 'USER', 1),
 
 -- ============================
 -- 2. 插入基础标签 - 菜系分类

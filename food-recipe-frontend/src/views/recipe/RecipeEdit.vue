@@ -1,9 +1,8 @@
 <template>
-  <div class="recipe-create-container">
-    <PageHeader :title="isEdit ? '编辑食谱' : '发布食谱'" />
+  <div class="recipe-edit-container">
+    <PageHeader title="编辑食谱" />
 
-    <el-card>
-
+    <el-card v-loading="loading">
       <el-form
         ref="formRef"
         :model="form"
@@ -40,6 +39,8 @@
                 <el-option label="湘菜" value="湘菜" />
                 <el-option label="家常菜" value="家常菜" />
                 <el-option label="西餐" value="西餐" />
+                <el-option label="甜品" value="甜品" />
+                <el-option label="素菜" value="素菜" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -93,7 +94,7 @@
 
         <el-form-item>
           <el-button type="primary" :loading="submitting" @click="handleSubmit">
-            {{ isEdit ? '保存' : '发布' }}
+            保存修改
           </el-button>
           <el-button @click="handleCancel">取消</el-button>
         </el-form-item>
@@ -103,20 +104,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { Plus, Delete } from '@element-plus/icons-vue'
 import PageHeader from '@/components/PageHeader.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
 import RichTextEditor from '@/components/RichTextEditor.vue'
-import { createRecipe, publishRecipe } from '@/api/recipe'
+import { getRecipeDetail, updateRecipe } from '@/api/recipe'
 import type { RecipeRequest } from '@/types/recipe'
 
 const router = useRouter()
+const route = useRoute()
 const formRef = ref<FormInstance>()
+const loading = ref(false)
 const submitting = ref(false)
-const isEdit = ref(false)
+
+const recipeId = ref<number>(0)
 
 const form = reactive<RecipeRequest>({
   title: '',
@@ -133,6 +137,38 @@ const form = reactive<RecipeRequest>({
 const rules: FormRules = {
   title: [{ required: true, message: '请输入食谱标题', trigger: 'blur' }],
   coverImage: [{ required: true, message: '请上传封面图', trigger: 'change' }]
+}
+
+const loadRecipeData = async () => {
+  recipeId.value = Number(route.params.id)
+  if (!recipeId.value) {
+    ElMessage.error('无效的食谱ID')
+    router.back()
+    return
+  }
+
+  loading.value = true
+  try {
+    const recipe = await getRecipeDetail(recipeId.value)
+    form.title = recipe.title
+    form.description = recipe.description || ''
+    form.coverImage = recipe.coverImage || ''
+    form.cuisineType = recipe.cuisineType || ''
+    form.difficulty = recipe.difficulty || ''
+    form.cookingTime = recipe.cookingTime
+    form.servings = recipe.servings
+    form.ingredients = recipe.ingredients?.length 
+      ? recipe.ingredients.map(i => ({ name: i.name, amount: i.amount || '' }))
+      : [{ name: '', amount: '' }]
+    form.steps = recipe.steps?.length
+      ? recipe.steps.map(s => ({ content: s.content }))
+      : [{ content: '' }]
+  } catch (error) {
+    console.error('加载食谱失败:', error)
+    ElMessage.error('加载食谱失败')
+  } finally {
+    loading.value = false
+  }
 }
 
 const addIngredient = () => {
@@ -165,7 +201,6 @@ const handleSubmit = async () => {
   await formRef.value.validate(async (valid) => {
     if (!valid) return
 
-    // 验证食材和步骤
     if (form.ingredients.some(item => !item.name)) {
       ElMessage.error('请填写食材名称')
       return
@@ -178,13 +213,11 @@ const handleSubmit = async () => {
 
     submitting.value = true
     try {
-      const recipeId = await createRecipe(form)
-      // 自动发布食谱
-      await publishRecipe(recipeId)
-      ElMessage.success('发布成功')
+      await updateRecipe(recipeId.value, form)
+      ElMessage.success('保存成功')
       router.push('/my-recipes')
     } catch (error) {
-      console.error('发布失败:', error)
+      console.error('保存失败:', error)
     } finally {
       submitting.value = false
     }
@@ -194,10 +227,14 @@ const handleSubmit = async () => {
 const handleCancel = () => {
   router.back()
 }
+
+onMounted(() => {
+  loadRecipeData()
+})
 </script>
 
 <style scoped>
-.recipe-create-container {
+.recipe-edit-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 24px;

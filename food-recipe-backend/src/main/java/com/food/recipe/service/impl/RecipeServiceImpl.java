@@ -130,7 +130,8 @@ public class RecipeServiceImpl implements RecipeService {
             throw new BusinessException("无权限发布此食谱");
         }
 
-        recipe.setStatus(Constants.RECIPE_STATUS_PENDING);
+        // 直接设为已发布状态（如需审核可改为 RECIPE_STATUS_PENDING）
+        recipe.setStatus(Constants.RECIPE_STATUS_PUBLISHED);
         recipeMapper.updateById(recipe);
 
         log.info("用户{}发布食谱成功，食谱ID:{}", userId, id);
@@ -153,8 +154,8 @@ public class RecipeServiceImpl implements RecipeService {
         Page<Recipe> page = new Page<>(current, size);
         LambdaQueryWrapper<Recipe> wrapper = new LambdaQueryWrapper<>();
         
-        // 开发阶段：暂时注释掉状态过滤，显示所有食谱
-        // wrapper.eq(Recipe::getStatus, Constants.RECIPE_STATUS_PUBLISHED);
+        // 只显示已发布的食谱
+        wrapper.eq(Recipe::getStatus, Constants.RECIPE_STATUS_PUBLISHED);
 
         // 关键词搜索（标题或简介）
         if (StringUtils.hasText(keyword)) {

@@ -21,7 +21,7 @@
           <template v-if="userStore.userInfo">
             <el-dropdown @command="handleCommand" trigger="click">
               <div class="user-avatar">
-                <el-avatar :size="36" :src="userStore.userInfo.avatar">
+                <el-avatar :size="36" :src="userAvatarUrl">
                   {{ userStore.userInfo.nickname?.charAt(0) }}
                 </el-avatar>
                 <span class="username">{{ userStore.userInfo.nickname }}</span>
@@ -65,6 +65,24 @@
           发现、分享、创作属于你的美食故事<br/>
           与千万美食爱好者一起，开启味蕾之旅
         </p>
+        
+        <!-- 搜索框 -->
+        <div class="hero-search">
+          <el-input
+            v-model="searchKeyword"
+            size="large"
+            placeholder="搜索你想要的食谱..."
+            @keyup.enter="handleSearch"
+          >
+            <template #prefix>
+              <el-icon><Search /></el-icon>
+            </template>
+            <template #append>
+              <el-button type="primary" @click="handleSearch">搜索</el-button>
+            </template>
+          </el-input>
+        </div>
+        
         <div class="hero-actions">
           <el-button type="primary" size="large" round @click="router.push('/recipes')">
             <el-icon><Search /></el-icon>
@@ -202,7 +220,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { getRecipeList } from '@/api/recipe'
@@ -218,12 +236,28 @@ const userStore = useUserStore()
 
 const recommendedRecipes = ref<Recipe[]>([])
 const recipesLoading = ref(false)
+const searchKeyword = ref('')
+
+const handleSearch = () => {
+  if (searchKeyword.value.trim()) {
+    router.push({ path: '/recipes', query: { keyword: searchKeyword.value.trim() } })
+  } else {
+    router.push('/recipes')
+  }
+}
 
 const getImageUrl = (url?: string) => {
   if (!url) return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400'
   if (url.startsWith('http')) return url
   return `http://localhost:8080${url}`
 }
+
+const userAvatarUrl = computed(() => {
+  const avatar = userStore.userInfo?.avatar
+  if (!avatar) return ''
+  if (avatar.startsWith('http')) return avatar
+  return `http://localhost:8080${avatar}`
+})
 
 const loadRecommendedRecipes = async () => {
   recipesLoading.value = true
@@ -451,7 +485,30 @@ onMounted(async () => {
   font-size: 20px;
   line-height: 1.8;
   color: var(--text-secondary);
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+}
+
+.hero-search {
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.hero-search :deep(.el-input__wrapper) {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 30px;
+  padding: 8px 16px;
+}
+
+.hero-search :deep(.el-input-group__append) {
+  background: var(--primary-color, #667eea);
+  border: none;
+  border-radius: 0 30px 30px 0;
+  padding: 0 24px;
+}
+
+.hero-search :deep(.el-input-group__append .el-button) {
+  color: white;
+  font-weight: 500;
 }
 
 .hero-actions {

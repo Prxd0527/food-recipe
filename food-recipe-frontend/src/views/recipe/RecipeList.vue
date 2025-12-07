@@ -95,11 +95,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { Search } from '@element-plus/icons-vue'
 import RecipeCard from '@/components/RecipeCard.vue'
 import { getRecipeList } from '@/api/recipe'
 import type { Recipe } from '@/types/recipe'
+
+const route = useRoute()
 
 const loading = ref(false)
 const recipeList = ref<Recipe[]>([])
@@ -132,6 +135,17 @@ const handleSearch = () => {
 }
 
 onMounted(() => {
+  // 从URL读取搜索关键词
+  if (route.query.keyword) {
+    searchParams.keyword = route.query.keyword as string
+  }
+  loadRecipeList()
+})
+
+// 监听URL参数变化
+watch(() => route.query.keyword, (newKeyword) => {
+  searchParams.keyword = (newKeyword as string) || ''
+  searchParams.current = 1
   loadRecipeList()
 })
 </script>

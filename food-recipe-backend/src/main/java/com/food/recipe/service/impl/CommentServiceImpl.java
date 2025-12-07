@@ -72,7 +72,11 @@ public class CommentServiceImpl implements CommentService {
             throw new BusinessException("评论不存在");
         }
 
-        if (!comment.getUserId().equals(userId)) {
+        // 获取用户信息，检查是否是评论作者或管理员
+        User user = userService.getUserById(userId);
+        boolean isAdmin = user != null && "ADMIN".equals(user.getRole());
+        
+        if (!comment.getUserId().equals(userId) && !isAdmin) {
             throw new BusinessException("无权限删除此评论");
         }
 
