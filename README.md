@@ -26,7 +26,6 @@
 
 ```bash
 git clone <repository-url>
-cd food
 ```
 
 ### 2. 配置数据库
@@ -48,11 +47,11 @@ source database/data.sql
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/food_recipe?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-    username: root        # 修改为您的MySQL用户名
-    password: 123456      # 修改为您的MySQL密码
+    username:        # MySQL用户名
+    password:     # MySQL密码
 
 file:
-  upload-path: d:/akaifa/food/upload/  # 修改为您的上传目录
+  upload-path:   # 上传目录
 ```
 
 ### 4. 启动后端
@@ -257,12 +256,3 @@ server {
 
 ---
 
-## 📄 许可证
-
-MIT License
-
----
-
-## 👨‍💻 作者
-
-prxd0527
