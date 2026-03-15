@@ -55,7 +55,7 @@ public class NovelGeneratorServiceImpl implements NovelGeneratorService {
         sb.append("我常常在心里反复描摹那些细节：").append(plotHint).append("。");
         if (!keywords.isEmpty()) {
             String joinedKeywords = String.join("、", keywords);
-            sb.append("关于").append(joinedKeywords).append("的线索像雾气一样在").append(background).append("里游移，");
+            sb.append("关于").append(joinedKeywords).append("的线索若隐若现在").append(background).append("里游移，");
             sb.append("它们勾起了我内心深处的悸动，也让整个").append(genre).append("显得更真实。");
         } else {
             sb.append("我把零碎的情绪一点点缝合，让这个").append(genre).append("逐渐成形。");

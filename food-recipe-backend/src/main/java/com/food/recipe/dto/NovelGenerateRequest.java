@@ -34,7 +34,7 @@ public class NovelGenerateRequest implements Serializable {
     @NotBlank(message = "小说类型不能为空")
     private String genre;
 
-    @ApiModelProperty(value = "关键词列表，用于情节或意象提示", example = "[\"旧日记\", \"雾气\", \"远方的车站\"]")
+    @ApiModelProperty(value = "关键词列表（JSON数组），用于情节或意象提示", example = "[\"旧日记\",\"雾气\",\"远方的车站\"]")
     private List<String> keywords;
 
     @ApiModelProperty(value = "情节提示，可选", example = "我在寻找失踪的朋友")
