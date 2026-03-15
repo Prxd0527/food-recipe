@@ -46,8 +46,8 @@ public class NovelGeneratorServiceImpl implements NovelGeneratorService {
     }
 
     private String buildOpening(String background, String name, String trait, String genre) {
-        return String.format("在%s，我叫%s，这段时间我一直以%s的姿态生活着。%s的气息在空气里回旋，每一次呼吸都像是在为未知的%s做准备。",
-                background, name, trait, background, genre);
+        return String.format("在%s，我叫%s，这段时间我一直以%s的姿态生活着。这里的气息在空气里回旋，每一次呼吸都像是在为未知的%s做准备。",
+                background, name, trait, genre);
     }
 
     private String buildRisingAction(String background, String genre, String plotHint, List<String> keywords) {
@@ -77,6 +77,6 @@ public class NovelGeneratorServiceImpl implements NovelGeneratorService {
     }
 
     private String normalize(String value, String fallback) {
-        return StringUtils.defaultIfBlank(StringUtils.trimToEmpty(value), fallback);
+        return StringUtils.defaultIfBlank(StringUtils.trim(value), fallback);
     }
 }

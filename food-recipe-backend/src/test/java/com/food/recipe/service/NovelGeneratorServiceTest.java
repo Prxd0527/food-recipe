@@ -35,6 +35,7 @@ class NovelGeneratorServiceTest {
         assertTrue(content.contains("旧日记"), "应包含关键词");
         assertTrue(content.contains("雾气"), "应包含关键词");
         assertTrue(content.contains("远方的车站"), "应包含关键词");
-        assertTrue(content.split("\\n\\n").length >= 2, "应生成多段落文本");
+        assertNotNull(response.getParagraphs(), "应返回分段内容");
+        assertEquals(3, response.getParagraphs().size(), "默认应生成三个段落");
     }
 }
