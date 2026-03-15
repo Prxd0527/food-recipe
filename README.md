@@ -179,6 +179,22 @@ GET    /api/favorites/check/{recipeId} 检查是否已收藏
 POST /api/upload/image    上传图片
 ```
 
+### 小说生成器（第一人称）
+```
+POST /api/novels/generate  生成第一人称小说片段
+```
+**请求示例**
+```json
+{
+  "background": "废墟中的未来城市",
+  "protagonistName": "阿黎",
+  "protagonistTrait": "顽强且敏感",
+  "genre": "悬疑",
+  "keywords": ["旧日记", "雾气", "远方的车站"],
+  "plotHint": "我在追踪失踪朋友留下的线索"
+}
+```
+
 ---
 
 ## 🛠️ 生产环境部署
@@ -255,4 +271,3 @@ server {
 - ✅ 完成搜索功能
 
 ---
-
